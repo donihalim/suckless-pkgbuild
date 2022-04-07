@@ -1,6 +1,7 @@
 # Maintainer: DONIX <donihalim@protonmail.com>
 
-pkgname=slock
+_pkgbase=slock
+pkgname=slock-dom
 pkgver=1.4
 pkgrel=1
 pkgdesc='Simple X display locker'
@@ -8,6 +9,8 @@ url='http://tools.suckless.org/slock'
 arch=('x86_64')
 license=('MIT')
 depends=('libxrandr')
+provides=(slock)
+conflicts=(slock)
 source=(
     https://dl.suckless.org/tools/slock-${pkgver}.tar.gz
     https://tools.suckless.org/slock/patches/dwmlogo/slock-dwmlogo-20210324.diff
@@ -21,7 +24,7 @@ sha256sums=(
 )
 
 prepare() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
+	cd "${srcdir}/${_pkgbase}-${pkgver}"
 	sed '/group =/s/nogroup/nobody/' -i config.def.h
     cp "${srcdir}/config.h" config.h
     cp "${srcdir}/slock-dwmlogo-20210324.diff" slock-dwmlogo-20210324.diff
@@ -30,13 +33,13 @@ prepare() {
 }
 
 build() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
-	make
+	cd "${srcdir}/${_pkgbase}-${pkgver}"
+	NAME="${pkgname}" make
 }
 
 package() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
-	make PREFIX=/usr DESTDIR="${pkgdir}" install
+	cd "${srcdir}/${_pkgbase}-${pkgver}"
+	NAME="{pkgname}" make PREFIX=/usr DESTDIR="${pkgdir}" install
 	install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
