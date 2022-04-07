@@ -1,6 +1,7 @@
 # Maintainer:  DONIX <donihalim@protonmail.com>
 
-pkgname=dmenu
+_pkgbase=dmenu
+pkgname=dmenu-dom
 pkgver=5.1
 pkgrel=1
 pkgdesc="A generic menu for X"
@@ -8,6 +9,8 @@ url="http://tools.suckless.org/dmenu/"
 arch=('x86_64')
 license=('MIT')
 depends=('libxinerama' 'libxft')
+provides=(dmenu)
+conflicts=(dmenu)
 source=(
     https://dl.suckless.org/tools/dmenu-${pkgver}.tar.gz
     https://tools.suckless.org/dmenu/patches/password/dmenu-password-5.0.diff
@@ -20,7 +23,7 @@ sha256sums=(
 )
 
 prepare() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
+    cd "${srcdir}/${_pkgbase}-${pkgver}"
     cp "${srcdir}/config.h" config.h
     cp "${srcdir}/dmenu-password-5.0.diff" dmenu-password-5.0.diff
     echo "Applying password patch..."
@@ -28,12 +31,12 @@ prepare() {
 }
 
 build(){
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    make
+    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    NAME="${pkgname}" make
 }
 
 package() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    make PREFIX=/usr DESTDIR="$pkgdir" install
+    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    NAME=${pkgname} make PREFIX=/usr DESTDIR="$pkgdir" install
     install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
 }
