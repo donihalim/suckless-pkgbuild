@@ -1,0 +1,42 @@
+# Maintainer: DONIX <donihalim@protonmail.com>
+
+pkgname=slock
+pkgver=1.4
+pkgrel=1
+pkgdesc='Simple X display locker'
+url='http://tools.suckless.org/slock'
+arch=('x86_64')
+license=('MIT')
+depends=('libxrandr')
+source=(
+    https://dl.suckless.org/tools/slock-${pkgver}.tar.gz
+    https://tools.suckless.org/slock/patches/dwmlogo/slock-dwmlogo-20210324.diff
+    config.h
+)
+
+sha256sums=(
+    'b53849dbc60109a987d7a49b8da197305c29307fd74c12dc18af0d3044392e6a'
+    'SKIP'
+    'SKIP'
+)
+
+prepare() {
+	cd "${srcdir}/${pkgname}-${pkgver}"
+	sed '/group =/s/nogroup/nobody/' -i config.def.h
+    cp "${srcdir}/config.h" config.h
+    cp "${srcdir}/slock-dwmlogo-20210324.diff" slock-dwmlogo-20210324.diff
+    echo "Applying dwmlogo patch..."
+    patch -p1 < slock-dwmlogo-20210324.diff
+}
+
+build() {
+	cd "${srcdir}/${pkgname}-${pkgver}"
+	make
+}
+
+package() {
+	cd "${srcdir}/${pkgname}-${pkgver}"
+	make PREFIX=/usr DESTDIR="${pkgdir}" install
+	install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
+
