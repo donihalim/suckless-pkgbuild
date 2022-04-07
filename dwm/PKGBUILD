@@ -18,7 +18,7 @@ optdepends=(
 )
 
 source=(
-    https://dl.suckless.org/dwm/dwm-$pkgver.tar.gz
+    https://dl.suckless.org/dwm/dwm-${pkgver}.tar.gz
     dwm-borderfix-6.3.diff
     dwm-smartborders-6.3.diff
     config.h
@@ -32,10 +32,10 @@ sha256sums=(
 )
 
 prepare() {
-    cd "$srcdir/$pkgname-$pkgver"
-    cp "$srcdir/config.h" config.h
-    cp "$srcdir/dwm-borderfix-6.3.diff" dwm-borderfix-6.3.diff
-    cp "$srcdir/dwm-smartborders-6.3.diff" dwm-smartborders-6.3.diff
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    cp "${srcdir}/config.h" config.h
+    cp "${srcdir}/dwm-borderfix-6.3.diff" dwm-borderfix-6.3.diff
+    cp "${srcdir}/dwm-smartborders-6.3.diff" dwm-smartborders-6.3.diff
     echo "Applying borderfix patch..."
     patch -p1 < dwm-borderfix-6.3.diff
     echo "Applying smartborder patch..."
@@ -43,14 +43,14 @@ prepare() {
 }
 
 build() {
-    cd "$srcdir/$pkgname-$pkgver"
+    cd "${srcdir}/${pkgname}-${pkgver}"
     make
 }
 
 package() {
-    cd "$srcdir/$pkgname-$pkgver"
-    make PREFIX=/usr DESTDIR="$pkgdir" install
-    install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
-    install -Dm644 README "$pkgdir/usr/share/doc/$pkgname/README"
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    make PREFIX=/usr DESTDIR="${pkgdir}" install
+    install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+    install -Dm644 README "${pkgdir}/usr/share/doc/${pkgname}/README"
 }
 
