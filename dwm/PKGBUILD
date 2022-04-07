@@ -1,6 +1,7 @@
 # Maintainer: DONIX <donihalim@protonmail.com>
 
-pkgname=dwm
+_pkgbase=dwm
+pkgname=dwm-dom
 pkgver=6.3
 pkgrel=1
 pkgdesc="A dynamic window manager for X"
@@ -16,6 +17,8 @@ optdepends=(
     'slock: Simple X display locker'
     'pulsemixer: CLI and curses mixer for pulseasudio' 
 )
+provides=(dwm)
+conflicts=(dwm)
 
 source=(
     https://dl.suckless.org/dwm/dwm-${pkgver}.tar.gz
@@ -32,7 +35,7 @@ sha256sums=(
 )
 
 prepare() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
+    cd "${srcdir}/${_pkgbase}-${pkgver}"
     cp "${srcdir}/config.h" config.h
     cp "${srcdir}/dwm-borderfix-6.3.diff" dwm-borderfix-6.3.diff
     cp "${srcdir}/dwm-smartborders-6.3.diff" dwm-smartborders-6.3.diff
@@ -43,13 +46,13 @@ prepare() {
 }
 
 build() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    make
+    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    NAME="${pkgname}" make
 }
 
 package() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    make PREFIX=/usr DESTDIR="${pkgdir}" install
+    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    NAME="${pkgname}" make PREFIX=/usr DESTDIR="${pkgdir}" install
     install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
