@@ -39,9 +39,7 @@ prepare() {
     cp "${srcdir}/config.h" config.h
     cp "${srcdir}/dwm-borderfix-6.3.diff" dwm-borderfix-6.3.diff
     cp "${srcdir}/dwm-smartborders-6.3.diff" dwm-smartborders-6.3.diff
-    echo "Applying borderfix patch..."
     patch -p1 < dwm-borderfix-6.3.diff
-    echo "Applying smartborder patch..."
     patch -p1 < dwm-smartborders-6.3.diff
 }
 

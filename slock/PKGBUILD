@@ -28,7 +28,6 @@ prepare() {
 	sed '/group =/s/nogroup/nobody/' -i config.def.h
     cp "${srcdir}/config.h" config.h
     cp "${srcdir}/slock-dwmlogo-20210324.diff" slock-dwmlogo-20210324.diff
-    echo "Applying dwmlogo patch..."
     patch -p1 < slock-dwmlogo-20210324.diff
 }
 

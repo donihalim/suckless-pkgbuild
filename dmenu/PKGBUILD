@@ -26,7 +26,6 @@ prepare() {
     cd "${srcdir}/${_pkgbase}-${pkgver}"
     cp "${srcdir}/config.h" config.h
     cp "${srcdir}/dmenu-password-5.0.diff" dmenu-password-5.0.diff
-    echo "Applying password patch..."
     patch -p1 < dmenu-password-5.0.diff
 }
 
