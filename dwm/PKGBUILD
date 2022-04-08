@@ -22,6 +22,7 @@ conflicts=(dwm)
 
 source=(
     https://dl.suckless.org/dwm/dwm-${pkgver}.tar.gz
+    https://dwm.suckless.org/patches/actualfullscreen/dwm-actualfullscreen-20211013-cb3f58a.diff
     dwm-borderfix-6.3.diff
     dwm-smartborders-6.3.diff
     config.h
@@ -32,6 +33,7 @@ sha256sums=(
     'SKIP'
     'SKIP'
     'SKIP'
+    'SKIP'
 )
 
 prepare() {
@@ -39,8 +41,10 @@ prepare() {
     cp "${srcdir}/config.h" config.h
     cp "${srcdir}/dwm-borderfix-6.3.diff" dwm-borderfix-6.3.diff
     cp "${srcdir}/dwm-smartborders-6.3.diff" dwm-smartborders-6.3.diff
+    cp "${srcdir}/dwm-actualfullscreen-20211013-cb3f58a.diff" dwm-actualfullscreen-20211013-cb3f58a.diff
     patch -p1 < dwm-borderfix-6.3.diff
     patch -p1 < dwm-smartborders-6.3.diff
+    patch -p1 < dwm-actualfullscreen-20211013-cb3f58a.diff
 }
 
 build() {
