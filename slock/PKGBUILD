@@ -6,7 +6,7 @@ pkgver=1.4
 pkgrel=1
 pkgdesc='Simple X display locker'
 url='http://tools.suckless.org/slock'
-arch=('x86_64')
+arch=('i686' 'x86_64')
 license=('MIT')
 depends=('libxrandr')
 provides=(slock)
@@ -19,16 +19,19 @@ source=(
 
 sha256sums=(
     'b53849dbc60109a987d7a49b8da197305c29307fd74c12dc18af0d3044392e6a'
-    'SKIP'
-    'SKIP'
-)
+    'a385cd5aac0b3885b7d174d2e3e921e847979be170546196049a812fa9c6e550'
+    'SKIP')
 
 prepare() {
 	cd "${srcdir}/${_pkgbase}-${pkgver}"
+    cp "${srcdir}/config.h" config.h # User defined config
+
+    # Change nogroup to nobody, since it isn't exist on Arch Linux
 	sed '/group =/s/nogroup/nobody/' -i config.def.h
-    cp "${srcdir}/config.h" config.h
-    cp "${srcdir}/slock-dwmlogo-20210324.diff" slock-dwmlogo-20210324.diff
-    patch -p1 < slock-dwmlogo-20210324.diff
+
+    # This patch draws the dwm logo which changes color based on the state.
+    # https://tools.suckless.org/slock/patches/dwmlogo/
+    patch -p1 < ../slock-dwmlogo-20210324.diff
 }
 
 build() {

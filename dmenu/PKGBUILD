@@ -6,7 +6,7 @@ pkgver=5.1
 pkgrel=1
 pkgdesc="A generic menu for X"
 url="http://tools.suckless.org/dmenu/"
-arch=('x86_64')
+arch=('i686' 'x86_64')
 license=('MIT')
 depends=('libxinerama' 'libxft')
 provides=(dmenu)
@@ -18,15 +18,15 @@ source=(
 )
 sha256sums=(
     '1f4d709ebba37eb7326eba0e665e0f13be4fa24ee35c95b0d79c30f14a348fd5'
-    'SKIP'
-    'SKIP'
-)
+    '38a8f4efc37246da6f626a9e44f2722fda4c4ca16aad3e2ad549f9c5398f1db7'
+    'SKIP')
 
 prepare() {
     cd "${srcdir}/${_pkgbase}-${pkgver}"
-    cp "${srcdir}/config.h" config.h
-    cp "${srcdir}/dmenu-password-5.0.diff" dmenu-password-5.0.diff
-    patch -p1 < dmenu-password-5.0.diff
+    cp "${srcdir}/config.h" config.h # User defined config
+
+    # https://tools.suckless.org/dmenu/patches/password
+    patch -p1 < ../dmenu-password-5.0.diff
 }
 
 build(){

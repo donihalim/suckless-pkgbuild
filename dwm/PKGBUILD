@@ -6,16 +6,15 @@ pkgver=6.3
 pkgrel=1
 pkgdesc="A dynamic window manager for X"
 url="https://dwm.suckless.org"
-arch=('x86_64')
+arch=('i686' 'x86_64')
 license=('MIT')
 options=(zipman)
-depends=('libx11' 'libxinerama' 'libxft' 'alacritty')
+depends=('libx11' 'libxinerama' 'libxft')
 optdepends=(
     'dmenu: A dynamic menu for X'
-    'libxft-bgra: Emoji support (AUR)'
+    'slock: A simple X display locker'
+    'alacritty: Default terminal used in this build'
     'terminus-font-ttf: Default font used in this build (AUR)'
-    'slock: Simple X display locker'
-    'pulsemixer: CLI and curses mixer for pulseasudio' 
 )
 provides=(dwm)
 conflicts=(dwm)
@@ -30,7 +29,7 @@ source=(
 
 sha256sums=(
     'badaa028529b1fba1fd7f9a84f3b64f31190466c858011b53e2f7b70c6a3078d'
-    'SKIP'
+    'fb2577deba308473e9019c79d63cde2b3854ca2a440065230a2c1463389a0221'
     'SKIP'
     'SKIP'
     'SKIP'
@@ -38,13 +37,20 @@ sha256sums=(
 
 prepare() {
     cd "${srcdir}/${_pkgbase}-${pkgver}"
-    cp "${srcdir}/config.h" config.h
-    cp "${srcdir}/dwm-borderfix-6.3.diff" dwm-borderfix-6.3.diff
-    cp "${srcdir}/dwm-smartborders-6.3.diff" dwm-smartborders-6.3.diff
-    cp "${srcdir}/dwm-actualfullscreen-20211013-cb3f58a.diff" dwm-actualfullscreen-20211013-cb3f58a.diff
-    patch -p1 < dwm-borderfix-6.3.diff
-    patch -p1 < dwm-smartborders-6.3.diff
-    patch -p1 < dwm-actualfullscreen-20211013-cb3f58a.diff
+    cp "${srcdir}/config.h" config.h # User defined config
+
+    # Fix transparent / cyan border when using compositor
+    # https://github.com/szatanjl/dwm/commit/1529909466206016f2101457bbf37c67195714c8
+    patch -p1 < ../dwm-borderfix-6.3.diff
+
+    # Inspired by the xmonad feature of the same name.
+    # https://dwm.suckless.org/patches/smartborders/
+    patch -p1 < ../dwm-smartborders-6.3.diff
+
+    # Actually toggle fullscreen for a window,
+    # instead of toggling the status bar and the monocle layout.
+    # https://dwm.suckless.org/patches/actualfullscreen/
+    patch -p1 < ../dwm-actualfullscreen-20211013-cb3f58a.diff
 }
 
 build() {
