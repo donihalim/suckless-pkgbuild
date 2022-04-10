@@ -5,8 +5,8 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = {"Terminus (TTF):size=15"};
-static const char dmenufont[]       = "Terminus (TTF):size=15";
+static const char *fonts[]          = {"JetBrainsMono Nerd Font Bandit:style=Medium:size=12.5"};
+static const char dmenufont[]       = "JetBrainsMono Nerd Font Bandit:style=Medium:size=12.5";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -65,20 +65,20 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
-static const char *lockscreen[]  = { "slock", NULL };
-static const char *volup[]  = { "pulsemixer", "--change-volume", "+5", NULL };
-static const char *voldowm[]  = { "pulsemixer", "--change-volume", "-5", NULL };
-static const char *volmute[]  = { "pulsemixer", "--toggle-mute", NULL };
+static const char *lockcmd[]  = { "slock", NULL };
 
 static Key keys[] = {
     /* modifier                     key                           function        argument */
+    { MODKEY,                       XK_Print,                     spawn,          SHCMD("dmenushot") },
     { MODKEY|ShiftMask,             XK_Insert,                    spawn,          SHCMD("dmenuvbox") },
+    { MODKEY|ShiftMask,             XK_b,                         spawn,          SHCMD("firefox") },
+    { MODKEY|ShiftMask,             XK_n,                         spawn,          SHCMD("alacritty -e nmtui") },
+    { 0,                            XF86AudioMute,                spawn,          SHCMD("pulsemixer --toggle-mute") },
+    { 0,                            XF86AudioRaiseVolume,         spawn,          SHCMD("pulsemixer --change-volume +5") },
+    { 0,                            XF86AudioLowerVolume,         spawn,          SHCMD("pulsemixer --change-volume -5") },
     { MODKEY,                       XK_p,                         spawn,          {.v = dmenucmd } },
     { MODKEY|ShiftMask,             XK_Return,                    spawn,          {.v = termcmd } },
-    { 0,                            XF86AudioMute,                spawn,          {.v = volmute } },
-    { 0,                            XF86AudioRaiseVolume,         spawn,          {.v = volup } },
-    { 0,                            XF86AudioLowerVolume,         spawn,          {.v = voldowm } },
-    { MODKEY,                       XK_Escape,                    spawn,          {.v = lockscreen } },
+    { MODKEY,                       XK_Escape,                    spawn,          {.v = lockcmd } },
     { MODKEY,                       XK_b,                         togglebar,      {0} },
     { MODKEY,                       XK_j,                         focusstack,     {.i = +1 } },
     { MODKEY,                       XK_k,                         focusstack,     {.i = -1 } },
