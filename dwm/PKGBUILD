@@ -13,8 +13,6 @@ depends=('libx11' 'libxinerama' 'libxft')
 optdepends=(
     'dmenu: A dynamic menu for X'
     'slock: A simple X display locker'
-    'alacritty: Default terminal used in this build'
-    'terminus-font-ttf: Default font used in this build (AUR)'
 )
 provides=(dwm)
 conflicts=(dwm)
